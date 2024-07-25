@@ -1,0 +1,9 @@
+# Azure libraries
+azure-identity            # Azure AD identity library
+azure-mgmt-resource       # Azure resource mgmt library
+azure-mgmt-keyvault       # Microsoft Azure Key Vault Management Client Library.
+azure-keyvault-secrets    # Key Vault secrets library
+azure-keyvault-keys       # Key Vault key client library
+azure.mgmt.authorization  # Authorization libraries used for role assignments and more
+# azure.graphrbac           # Quering AD for RBAC details based on user names or Group names
+msgrph==1.2.0             # Microsoft Graph API library
