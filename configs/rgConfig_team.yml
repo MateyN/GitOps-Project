@@ -1,52 +1,52 @@
 realms:
   dv22:
-    - name: GitOps-Project-PROS
-      #region: westus
-      tags:
-        environment: test-test
-      admin_groups:
-        - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
-          roles:
-            - "Contributor"
+  - name: GitOpsRG
+    #region: westus
+    tags:
+      environment: test
+    admin_groups:
+    - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
+      roles:
+      - "Contributor"
 
   dv23:
-    - name: Project-test-prod
-      #region: westeurope
-      tags:
-        environment: test-prod
-      admin_groups:
-        - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
-          roles:
-            - "Reader"
-            - "Contributor"
+  - name: Project-test-prod
+    #region: westeurope
+    tags:
+      environment: test-prod
+    admin_groups:
+    - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
+      roles:
+      - "Reader"
+      - "Contributor"
 
   dv24:
-    - name: GitOps-Project-PROS
-      #region: centralus
-      tags:
-        environment: staging
-      admin_groups:
-        - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
-          roles:
-            - "Owner"
-            - "User Access Administrator"
+  - name: GitOps-Project-PROS
+    #region: centralus
+    tags:
+      environment: staging
+    admin_groups:
+    - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
+      roles:
+      - "Owner"
+      - "User Access Administrator"
 
   dv25:
-    - name: SomeOtherRG
-      #region: northeurope
-      tags:
-        environment: development
-      admin_groups:
-        - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
-          roles:
-            - "Contributor"
-            - "Security Reader"
+  - name: SomeOtherRG
+    #region: northeurope
+    tags:
+      environment: dev
+    admin_groups:
+    - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
+      roles:
+      - "Contributor"
+      - "Security Reader"
 
   dv26:
-    - name: TestRG-test
-      tags:
-        environment: production
-      admin_groups:
-        - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
-          roles:
-            - "Contributor"
+  - name: TestRG-test
+    tags:
+      environment: prod
+    admin_groups:
+    - name: 534fcf3c-65a8-41d0-8282-ad67b8387ece
+      roles:
+      - "Contributor"
