@@ -41,7 +41,9 @@ jobs:
       inlineScript: |
         echo "Syncing Github project"
         git clone https://$(GITHUB_PAT)@github.com/MateyN/GitOps-Project.git
-    displayName: 'Sync Github project'
+    env:
+      GITHUB_PAT: $(GITHUB_PAT)
+      displayName: 'Sync pors-azure project'
 
   - script: |
       source venv/bin/activate
