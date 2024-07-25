@@ -48,6 +48,7 @@ jobs:
   - script: |
       echo "Team Name: ${{ parameters.teamName }}"
       echo "Realm Name: ${{ parameters.realmName }}"
+      pwd
       source venv/bin/activate
       export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
       sleep 10
