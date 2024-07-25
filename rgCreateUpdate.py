@@ -45,20 +45,24 @@ def print_azure_item(group):
 
 def get_realm_details(name, data):
     """
-    This function loops through a list of dictionaries and looks for a dictionary that matches
-    the provided `name`. It returns the full dictionary that matches the name.
+    This function loops trough list of dictionaries and looks for key named "name" if it matches the
+    provided parameter name returns the full dictionary that has it. The idea is to go trough a data
+    structure like this:
 
-    Parameters:
-    - name (str): The name to match.
-    - data (list of dict): The data structure to search through. Each dictionary should contain 'name' key.
+    {'id': '4455251f-653b-4577-b1b4-46b78221d3f8',
+    'name': 'cd',
+    'region': 'centralus'}
 
-    Returns:
-    - dict: The dictionary that matches the `name`, or an empty dictionary if not found.
+    and return it if name == "cd".
+    data should be list of dictionaries.
     """
+
+    ret_dict = {}
     for _item in data:
         if _item["name"] == name:
-            return _item
-    return {}
+            _ret_dict = _item
+
+    return _ret_dict
 
 
 def role_assignment(rg_roles=[]):
@@ -105,7 +109,7 @@ def role_assignment(rg_roles=[]):
             try:
                 auth_client.role_assignments.create(
                     _rg_created.id,
-                    uuid.uuid4(), # Each assignment should have a unique id ( Azure requirement ) # noqa: E261
+                    uuid.uuid4(),  # Each assignment should have a unique id ( Azure requirement )
                     {
                         "role_definition_id": _role_ids[role_name],
                         "principal_id": _r_ad_group,
@@ -123,9 +127,9 @@ _args = sys.argv
 
 credentials = DefaultAzureCredential()
 
-# Check if exactly 3 arguments are passed (script, config file, and the realm)
-if not len(_args) == 3:   # Changed from 2 to 3 to accept the realm name as second parameter
-    logging.error(f'{_args[0]} - ERROR: The script accepts a config yml file and a realm name as arguments. Please provide both!')
+# Check if at least 2 arguments are passed (script and config file)
+if not len(_args) >= 2:
+    logging.error(f'{_args[0]} - ERROR: The script accepts a config yml file and optionally a realm name as arguments. Please provide at least the config file!')
     sys.exit(2)
 
 # Read the rgConfig_<team>.yml and rgConfig_common.yml and store them in two objects
@@ -135,19 +139,19 @@ _subs = _common_conf_file["subscriptions"]
 tenant_id = _common_conf_file["tenant_id"]
 realms = _config_file["realms"]
 
-# Get the realm name from the second parameter
-realm_name = _args[2]  # Added to get the realm name from the arguments
+# Get the optional realm name from the third parameter
+realm_name = _args[2] if len(_args) == 3 else None
 
 # Check if the specified realm exists in the config file
-if realm_name not in realms:  # Added to verify if the provided realm exists in the config
+if realm_name and realm_name not in realms:
     logging.error(f'{_red}ERROR: The realm "{realm_name}" does not exist in the config file!{_color_reset}')
     sys.exit(2)
 
-# Filter the realms to process only the specified realm
-_realms_to_process = {realm_name: realms[realm_name]}  # Added to filter only the specified realm
+# Filter the realms to process based on provided realm name, or process all if no realm name is provided
+_realms_to_process = {realm_name: realms[realm_name]} if realm_name else realms
 
 # iterate on all elements (rgs) from the yaml config
-for _realm, _rgs in _realms_to_process.items():  # Changed realms.items() to _realms_to_process.items()
+for _realm, _rgs in _realms_to_process.items():
     # dict for extracting the associated role_ids
     _role_ids = {}
 
@@ -155,7 +159,7 @@ for _realm, _rgs in _realms_to_process.items():  # Changed realms.items() to _re
     _realm_sub_info = get_realm_details(_realm, _subs)
     subscription_id = _realm_sub_info["id"]
 
-    # Construct the Azure RM and auth clients
+    # Construct the Azure  RM and auth clients
     rm_client = ResourceManagementClient(credentials, subscription_id)
     auth_client = AuthorizationManagementClient(credentials, subscription_id)
 
@@ -166,11 +170,7 @@ for _realm, _rgs in _realms_to_process.items():  # Changed realms.items() to _re
         rg_name = _rg["name"]
         rg_roles = _rg["admin_groups"]
         # check if the team's config file has differenet region than the subscription
-        if _rg.get("region") is not None:
-            region = _rg["region"]
-        else:
-            region = _realm_sub_info["region"]
-
+        region = _rg.get("region", _realm_sub_info["region"])
         rg_tags = _rg["tags"]
 
         print(f'Working on:\n rg_name: {rg_name}')
