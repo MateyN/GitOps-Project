@@ -2,7 +2,7 @@ trigger:
 - none
 
 variables:
-  pythonVersion: '3.x'
+  - group: GitHubPAT
 
 parameters:
 - name: teamName
@@ -23,7 +23,7 @@ jobs:
   steps:
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '$(pythonVersion)'
+      versionSpec: '3.x'
       addToPath: true
 
   - script: |
