@@ -29,7 +29,6 @@ jobs:
   - script: |
       python -m venv venv
       source venv/bin/activate
-      export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
       pip install -r requirements.txt
       pip install -r requirements_tested.txt
     displayName: 'Set up Python environment'
@@ -48,5 +47,6 @@ jobs:
 
   - script: |
       source venv/bin/activate
-      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/$(teamName) $(realmName)
+      export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
+      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
