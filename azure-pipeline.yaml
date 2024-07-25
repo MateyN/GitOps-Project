@@ -1,0 +1,50 @@
+trigger:
+- none
+
+variables:
+  pythonVersion: '3.x'
+
+parameters:
+- name: teamName
+  displayName: Team Name
+  type: string
+  default: 'default-team'
+
+- name: realmName
+  displayName: Realm Name
+  type: string
+  default: 'default-realm'
+
+jobs:
+- job: BuildAndRun
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(pythonVersion)'
+      addToPath: true
+
+  - script: |
+      python -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
+      export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
+    displayName: 'Set up Python environment'
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'YourAzureSubscriptionServiceConnection'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Syncing pros-azure project"
+        git clone https://github.com/MateyN/GitOps-Project/
+    displayName: 'Sync pros-azure project'
+
+  - script: |
+      source venv/bin/activate
+      python rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/rgConfig_team.yml $(realmName)
+    displayName: 'Run rgCreateUpdate.py script'
+
