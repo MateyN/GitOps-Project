@@ -1,0 +1,22 @@
+tenant_id: 225cdd2b-e926-4c08-8455-bd205fb90e2c
+
+subscriptions:
+  - name: dv22
+    id: 6b107fd5-fad1-457c-b05a-7817c95e33d6
+    region: westus
+
+  - name: dv23
+    id: 6b107fd5-fad1-457c-b05a-7817c95e33d6
+    region: westeurope
+
+  - name: dv24
+    id: 6b107fd5-fad1-457c-b05a-7817c95e33d6
+    region: centralus
+
+  - name: dv25
+    id: 6b107fd5-fad1-457c-b05a-7817c95e33d6
+    region: northeurope
+
+  - name: dv26
+    id: 6b107fd5-fad1-457c-b05a-7817c95e33d6
+    region: southcentralus
