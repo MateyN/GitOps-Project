@@ -50,5 +50,6 @@ jobs:
       echo "Realm Name: ${{ parameters.realmName }}"
       source venv/bin/activate
       export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
+      sleep 10
       python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
