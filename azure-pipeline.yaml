@@ -46,6 +46,8 @@ jobs:
     displayName: 'Sync Github project'
 
   - script: |
+      echo "Team Name: ${{ parameters.teamName }}"
+      echo "Realm Name: ${{ parameters.realmName }}"
       source venv/bin/activate
       export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
       python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
