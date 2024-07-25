@@ -39,9 +39,9 @@ jobs:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        echo "Syncing pros-azure project"
-        git clone https://github.com/MateyN/GitOps-Project/
-    displayName: 'Sync pros-azure project'
+        echo "Syncing Github project"
+        git clone https://$(GITHUB_PAT)@github.com/MateyN/GitOps-Project.git
+    displayName: 'Sync Github project'
 
   - script: |
       source venv/bin/activate
