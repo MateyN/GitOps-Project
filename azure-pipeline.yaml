@@ -28,7 +28,7 @@ jobs:
 
   - script: |
       python -m venv venv
-      source /home/mnikolov/test/myvenv/bin/active
+      source venv/bin/activate
       pip install -r requirements.txt
       pip install -r requirements_tested.txt
       export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
@@ -47,6 +47,6 @@ jobs:
     displayName: 'Sync Github project'
 
   - script: |
-      source /home/mnikolov/test/myvenv/bin/active
-      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/rgConfig_team.yml $(realmName)
+      source venv/bin/activate
+      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/$(teamName) $(realmName)
     displayName: 'Run rgCreateUpdate.py script'
