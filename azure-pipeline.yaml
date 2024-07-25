@@ -40,9 +40,9 @@ jobs:
       scriptLocation: 'inlineScript'
       inlineScript: |
         echo "Syncing Github project"
-        git clone https://$(GITHUB_PAT)@github.com/MateyN/GitOps-Project.git
+        git clone https://$(GitHub_PAT)@github.com/MateyN/GitOps-Project.git
     env:
-      GITHUB_PAT: $(GITHUB_PAT)
+      GitHub_PAT: $(GitHub_PAT)
     displayName: 'Sync Github project'
 
   - script: |
