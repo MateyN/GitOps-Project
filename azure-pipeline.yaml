@@ -35,7 +35,7 @@ jobs:
 
   - task: AzureCLI@2
     inputs:
-      azureSubscription: 'YourAzureSubscriptionServiceConnection'
+      azureSubscription: 'GitOpsServiceConnection'
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
