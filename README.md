@@ -1,3 +1,8 @@
+-> https://agile.pros.com/browse/PROSDEV-6353
+-> https://agile.pros.com/browse/PROSDEV-6354
+-> https://agile.pros.com/browse/PROSDEV-6367
+-> https://agile.pros.com/browse/PROSDEV-5812
+
 GitOps Project
 
 1. Optimize rgCreateUpdate.py Script:
@@ -20,6 +25,6 @@ Task: Introduce new parameters to the pipeline configuration to specify:
 Teams Name: The name of the team responsible or associated with the changes.
 Realm: The specific realm to be targeted by the script.
 
-5. Bonus Task - Trigger Pipeline Externally with Payload:   
+5. Bonus Task - Trigger Pipeline Externally with Payload:
 
-Task: Enable the pipeline to be triggered from an external source, providing a payload that includes necessary parameters. This could involve setting up webhooks, API endpoints, or other mechanisms to initiate the pipeline run with dynamic inputs.   
+Task: Enable the pipeline to be triggered from an external source, providing a payload that includes necessary parameters. This could involve setting up webhooks, API endpoints, or other mechanisms to initiate the pipeline run with dynamic inputs.
