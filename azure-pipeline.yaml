@@ -45,5 +45,5 @@ jobs:
 
   - script: |
       source venv/bin/activate
-      python rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/rgConfig_team.yml $(realmName)
+      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/rgConfig_team.yml $(realmName)
     displayName: 'Run rgCreateUpdate.py script'
