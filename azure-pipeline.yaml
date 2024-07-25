@@ -43,7 +43,7 @@ jobs:
         git clone https://$(GITHUB_PAT)@github.com/MateyN/GitOps-Project.git
     env:
       GITHUB_PAT: $(GITHUB_PAT)
-    displayName: 'Sync pors-azure project'
+    displayName: 'Sync Github project'
 
   - script: |
       source venv/bin/activate
