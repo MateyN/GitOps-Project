@@ -15,9 +15,9 @@ Proposed Change: Modify the script to accept realms as parameters. This allows f
 
 Task: Utilize an Azure CLI agent to build the required Python environment for the script execution during the pipeline run. This ensures the necessary dependencies are installed and configured automatically as part of the pipeline.
 
-3. Sync pors-azure Project in Pipeline:
+3. Sync pros-azure Project in Pipeline:
 
-Task: Ensure that the pors-azure project repository is synchronized within the pipeline. This could involve cloning the repository, pulling the latest changes, or any other necessary sync operations.
+Task: Ensure that the pros-azure project repository is synchronized within the pipeline. This could involve cloning the repository, pulling the latest changes, or any other necessary sync operations.
 
 4. Add Pipeline Parameters:
 
