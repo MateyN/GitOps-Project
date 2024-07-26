@@ -3,7 +3,8 @@ trigger:
 
 variables:
 - group: GitHubPAT
-- group: StashPAT
+- group: BitbucketSecrets
+- group: SSHPAT
 
 parameters:
 - name: teamName
@@ -34,45 +35,32 @@ jobs:
       pip install -r requirements_tested.txt
     displayName: 'Set up Python environment'
 
-  - task: AzureCLI@1
-    inputs:
-      azureSubscription: 'GitOpsServiceConnection'
-      scriptType: 'bash'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        echo "Syncing Bitbucket repository"
-        git clone https://$(StashPAT)@stash.pros.com/scm/devops/pros-azure.git
+  - script: |
+      echo "Testing connectivity to Bitbucket/Stash..."
+      ssh -o StrictHostKeyChecking=no git@stash.pros.com exit
+    displayName: 'Test SSH Connectivity to Bitbucket/Stash'
     env:
-      BitBucketPAT: $(StashPAT)
-    displayName: 'Sync Bitbucket repository'
+      SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
 
-  - task: AzureCLI@1
-    inputs:
-      azureSubscription: 'GitOpsServiceConnection'
-      scriptType: 'bash'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        echo "Syncing GitHub repo"
-        git clone https://$(GitHub_PAT)@github.com/MateyN/GitOps-Project.git
+  - script: |
+      echo "Syncing GitHub project"
+      git clone https://$(GitHub_PAT)@github.com/MateyN/GitOps-Project.git
     env:
       GitHub_PAT: $(GitHub_PAT)
-    displayName: 'Sync GitHub repo'
+    displayName: 'Sync GitHub project'
+
+  - script: |
+      echo "Syncing Bitbucket project"
+      git clone ssh://git@stash.pros.com/devops/pros-azure.git
+    displayName: 'Sync Bitbucket project'
+    env:
+      SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
 
   - script: |
       echo "Team Name: ${{ parameters.teamName }}"
       echo "Realm Name: ${{ parameters.realmName }}"
-<<<<<<< HEAD
-      source venv/bin/activate
-      export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
-      echo "PYTHONPATH is set to: $PYTHONPATH"
-      python3 ${BUILD_SOURCESDIRECTORY}/GitOps-Project/rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
-    displayName: 'Run rgCreateUpdate.py script'
-=======
       pwd
       source venv/bin/activate
-      export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
-      echo "PYTHONPATH is set to: $PYTHONPATH"
-      ls -R ${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib
-      python3 ${BUILD_SOURCESDIRECTORY}/GitOps-Project/rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
+      export PYTHONPATH="${PYTHONPATH}:$(Build.SourcesDirectory)/pros-azure/aks/py/lib"
+      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
->>>>>>> 926e1adc39eab16868f66542384f84a530e4579d
