@@ -40,7 +40,7 @@ jobs:
       ssh -o StrictHostKeyChecking=no git@stash.pros.com exit
     displayName: 'Test SSH Connectivity to Bitbucket/Stash'
     env:
-      SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
+      SSHPAT: $(SSHPAT)
 
   - script: |
       echo "Syncing GitHub project"
@@ -54,7 +54,7 @@ jobs:
       git clone ssh://git@stash.pros.com/devops/pros-azure.git
     displayName: 'Sync Bitbucket project'
     env:
-      SSH_PRIVATE_KEY: $(SSH_PRIVATE_KEY)
+      SSHPAT: $(SSHPAT)
 
   - script: |
       echo "Team Name: ${{ parameters.teamName }}"
