@@ -50,9 +50,10 @@ jobs:
       echo "Realm Name: ${{ parameters.realmName }}"
       pwd
       source venv/bin/activate
-      export PYTHONPATH="${PYTHONPATH}:/home/vsts/work/1/s/pros-azure/aks/py/lib"
+      export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
       sleep 10
       echo "PYTHONPATH is set to: $PYTHONPATH"
       sleep 10
-      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
+      ls -R ${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib
+      python3 rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
