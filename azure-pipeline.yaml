@@ -61,8 +61,18 @@ jobs:
   - script: |
       echo "Team Name: ${{ parameters.teamName }}"
       echo "Realm Name: ${{ parameters.realmName }}"
+<<<<<<< HEAD
       source venv/bin/activate
       export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
       echo "PYTHONPATH is set to: $PYTHONPATH"
       python3 ${BUILD_SOURCESDIRECTORY}/GitOps-Project/rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
+=======
+      pwd
+      source venv/bin/activate
+      export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
+      echo "PYTHONPATH is set to: $PYTHONPATH"
+      ls -R ${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib
+      python3 ${BUILD_SOURCESDIRECTORY}/GitOps-Project/rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
+    displayName: 'Run rgCreateUpdate.py script'
+>>>>>>> 926e1adc39eab16868f66542384f84a530e4579d
