@@ -127,9 +127,14 @@ _args = sys.argv
 
 credentials = DefaultAzureCredential()
 
-# Check if at least 2 arguments are passed (script and config file)
-if not len(_args) >= 2:
-    logging.error(f'{_args[0]} - ERROR: The script accepts a config yml file and optionally a realm name as arguments. Please provide at least the config file!')
+# Check if less than 2 arguments are provided
+if len(_args) < 2:
+    logging.error(f'{_args[0]} - ERROR: The script accepts a config YAML file and optionally one realm name as arguments. Please provide at least the config file!')
+    sys.exit(2)
+
+# Check for too many arguments
+if len(_args) > 3:
+    logging.error(f'{_args[0]} - ERROR: Too many arguments provided. The script accepts only one optional realm name.')
     sys.exit(2)
 
 # Read the rgConfig_<team>.yml and rgConfig_common.yml and store them in two objects
@@ -139,19 +144,26 @@ _subs = _common_conf_file["subscriptions"]
 tenant_id = _common_conf_file["tenant_id"]
 realms = _config_file["realms"]
 
-# Get the optional realm name from the third parameter
-realm_name = _args[2] if len(_args) == 3 else None
+realm_name = None
+
+# Check if one additional argument is provided and get the optional realm name from the 3rd parameter
+if len(_args) == 3:
+    realm_name = _args[2]
 
 # Check if the specified realm exists in the config file
-if realm_name and realm_name not in realms:
-    logging.error(f'{_red}ERROR: The realm "{realm_name}" does not exist in the config file!{_color_reset}')
-    sys.exit(2)
+if realm_name:
+    if realm_name not in realms:
+        logging.error(f'ERROR: The realm "{realm_name}" does not exist in the config file!')
+        sys.exit(2)
 
 # Filter the realms to process based on provided realm name, or process all if no realm name is provided
-_realms_to_process = {realm_name: realms[realm_name]} if realm_name else realms
+if realm_name:
+    realms = {realm_name: realms[realm_name]}
+else:
+    realms = realms
 
 # iterate on all elements (rgs) from the yaml config
-for _realm, _rgs in _realms_to_process.items():
+for _realm, _rgs in realms.items():
     # dict for extracting the associated role_ids
     _role_ids = {}
 
