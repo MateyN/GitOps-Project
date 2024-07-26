@@ -50,7 +50,7 @@ jobs:
       echo "Realm Name: ${{ parameters.realmName }}"
       pwd
       source venv/bin/activate
-      export PYTHONPATH="${PYTHONPATH}:/home/vsts/work/1/spros-azure/aks/py/lib"
+      export PYTHONPATH="${PYTHONPATH}:/home/vsts/work/1/s/pros-azure/aks/py/lib"
       sleep 10
       echo "PYTHONPATH is set to: $PYTHONPATH"
       sleep 10
