@@ -3,6 +3,7 @@ trigger:
 
 variables:
 - group: GitHubPAT
+- group: StashPAT
 
 parameters:
 - name: teamName
@@ -31,22 +32,37 @@ jobs:
       source venv/bin/activate
       pip install -r requirements.txt
       pip install -r requirements_tested.txt
-      export PYTHONPATH="${PYTHONPATH}:/home/mnikolov/pros-azure/aks/py/lib"
     displayName: 'Set up Python environment'
 
-  - task: AzureCLI@2
+  - task: AzureCLI@1
     inputs:
       azureSubscription: 'GitOpsServiceConnection'
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        echo "Syncing Github project"
+        echo "Syncing Bitbucket repository"
+        git clone https://$(StashPAT)@stash.pros.com/scm/devops/pros-azure.git
+    env:
+      BitBucketPAT: $(StashPAT)
+    displayName: 'Sync Bitbucket repository'
+
+  - task: AzureCLI@1
+    inputs:
+      azureSubscription: 'GitOpsServiceConnection'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Syncing GitHub repo"
         git clone https://$(GitHub_PAT)@github.com/MateyN/GitOps-Project.git
     env:
       GitHub_PAT: $(GitHub_PAT)
-    displayName: 'Sync Github project'
+    displayName: 'Sync GitHub repo'
 
   - script: |
+      echo "Team Name: ${{ parameters.teamName }}"
+      echo "Realm Name: ${{ parameters.realmName }}"
       source venv/bin/activate
-      python3 rgCreateUpdate.py $(Build.SourcesDirectory)/home/mnikolov/gitgit/configs/$(teamName) $(realmName)
+      export PYTHONPATH="${PYTHONPATH}:${BUILD_SOURCESDIRECTORY}/pros-azure/aks/py/lib"
+      echo "PYTHONPATH is set to: $PYTHONPATH"
+      python3 ${BUILD_SOURCESDIRECTORY}/GitOps-Project/rgCreateUpdate.py ${BUILD_SOURCESDIRECTORY}/GitOps-Project/configs/${{ parameters.teamName }}.yml ${{ parameters.realmName }}
     displayName: 'Run rgCreateUpdate.py script'
